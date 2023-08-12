@@ -5,8 +5,9 @@ import { Route, Routes, BrowserRouter } from "react-router-dom"
 import Header from '../src/components/Header'
 import Footer1 from './components/Footer1'
 import Home from './pages/Home'
-import CadastroDev from './pages/CadastroDev'
+// import CadastroDev from './pages/CadastroDev'
 import ListaServicos from './pages/ListaServicos'
+import ListaDevs from './pages/ListaDevs'
 
 
 
@@ -17,8 +18,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Header />
         <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='lista/servicos' element={<ListaServicos />} />
-        <Route path='cadastro/dev' element={<CadastroDev/>} />
+        <Route path='listaservicos' element={<ListaServicos />} />
+        {/* <Route path='cadastrodev' element={<CadastroDev/>} /> */}
+        <Route path='listadevs' element={<ListaDevs/>}/>
         </Routes>
         <Footer1 />
       </BrowserRouter>
