@@ -4,8 +4,8 @@ export default function CardServ(props: any) {
     return (
         <div className="servico">
             <div className="topo_servico">
-                <h3>{props.titulo}</h3>
-                <span>{props.salario}</span>
+                <h3>{props.nome}</h3>
+                <span>{props.valor}</span>
             </div>
             <p>{props.descricao}</p>
             <div className="techs">

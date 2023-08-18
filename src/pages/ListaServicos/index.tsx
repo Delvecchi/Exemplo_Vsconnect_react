@@ -1,58 +1,51 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import CardServ from "../../components/CardServ"
 import "./style.css"
 
+import api from "../../utils/api";
+
 function ListaServicos() {
 
-    const [servicos, setServicos] = useState<any[]>([
-
-        {
-            titulo: "Desenvolvimento de site institucional - Gateway de Pagamento / Fintech",
-            salario: "R$ 1300,00",
-            descricao: "Desenvolver um site responsivo que seja utilizado como uma plataforma de apresentação do nosso gateway de pagamento. O objetivo principal deste projeto é criar um site atraente e informativo, que demonstre as funcionalidades e benefícios do nosso gateway de pagamento para potenciais clientes.",
-            skills: ["HTML", "CSS", "REACT"]
-        },
-
-        {
-            titulo: "Bot telegram Pagamento",
-            salario: "R$ 2400,00",
-            descricao: "Preciso fazer um código em python para um bot do telegram. O bot será para solicitação de pagamento.",
-            skills: ["PYTHON"]
-        },
-
-        {
-            titulo: "Caixa Rápido",
-            salario: "R$ 1200,00",
-            descricao: "Preciso fazer um  software que permita ao usuário fazer o upload de seu extrato bancário em formato( ofx). Dentro do software o mesmo poderá categorizar todas as suas receitas e despesas, tendo categorias sugeridas pelo software e permitindo também personalizações. Após o lançamento de vários extratos o software irá entender que são lançamentos parecidos e fará a categorização de maneira automática, cabendo ao usuário somente categorizar as receitas e despesas que não se repetem. Após a categorização o software irá emitir gráficos e relatórios baseados na categorização das contas.",
-            skills: ["PYTHON"]
-        },
-
-
-    ]);
-
+    const [servs, setServs] = useState<any[]>([]);
+    
     const [skillDigitada, setSkillDigitada] = useState<string>("");
 
-    const [listaServicosFiltrados, setlistaServicosFiltrados] = useState<any[]>(servicos);
+    const [servicos, setServicos] = useState<any[]>(servs);
+
+    useEffect(() => {
+        document.title = "Lista de Serviços - VSConnect"
+
+        listarServicos()
+    }, [])
 
     function buscarPorSkill(event: any) {
         event.preventDefault();
 
-        const servicosFiltrados = servicos.filter((servico: any) => servico.skills.includes(skillDigitada.toLocaleUpperCase()))
+        const servicosFiltrados = servicos.filter((servico: any) => servico.techs.includes(skillDigitada.toLocaleUpperCase()))
 
         if (servicosFiltrados.length === 0) {
             alert("Nenhum serviço foi encontrado com essa skill")
         } else {
-            setlistaServicosFiltrados(servicosFiltrados)
+            setServicos(servicosFiltrados)
         }
 
     }
 
     function retornoServicosGeral(event: any) {
         if (event.target.value === "") {
-            setlistaServicosFiltrados(servicos)
+            listarServicos()
         }
         setSkillDigitada(event.target.value)
     }
+
+    function listarServicos() {
+        api.get("servicos")
+        .then((response: any) => {
+        //   console.log(response.data)
+          setServicos(response.data)
+        })
+        // .catch(error => console.log("Erro", error));
+      }
 
 
     return (
@@ -78,13 +71,13 @@ function ListaServicos() {
                     </form>
                     <div className="wrapper_lista">
                         <ul>
-                            {listaServicosFiltrados.map((servico: any, index: number) => {
+                            {servicos.map((servico: any, index: number) => {
                                 return <li>
                                     <CardServ
-                                        titulo={servico.titulo}
-                                        salario={servico.salario}
+                                        titulo={servico.nome}
+                                        salario={servico.valor}
                                         descricao={servico.descricao}
-                                        techs={servico.skills}
+                                        techs={servico.techs}
                                     />
                                 </li>
                             }
