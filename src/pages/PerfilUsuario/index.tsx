@@ -23,7 +23,7 @@ function PerfilUsuario() {
     const [listaSkills, setListaSkills] = useState<string[]>([])
 
     useEffect(() => {
-        document.title = "Perfil de " + nome + " - VSConnect"
+        document.title = "Perfil de " + {nome} + " - VSConnect"
 
         buscarUsuarioPorId()
     }, [])
