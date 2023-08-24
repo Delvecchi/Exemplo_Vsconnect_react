@@ -4,6 +4,8 @@ import "./style.css";
 //Hook
 import { useState } from "react";
 
+import api from "../../utils/api"
+
 
 function CadastroUsuario() {
 
@@ -16,9 +18,56 @@ function CadastroUsuario() {
         ]
     );
 
+    const [nome, setNome] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
+    const [senha, setSenha] = useState<string>("")
+    const [foto, setFoto] = useState<any>("")
+    const [cep, setCep] = useState<string>("")
+    const [logradouro, setLogradouro] = useState<string>("")
+    const [numero, setNumero] = useState<string>("")
+    const [bairro, setBairro] = useState<string>("")
+    const [cidade, setCidade] = useState<string>("")
+    const [uf, setUf] = useState<string>("")
+
+
+
     const [skillsSelecionadas, setSkillsSelecionadas] = useState<string[]>([]); // Array (lista) para armazenar as skills selecionadas
 
     const [select, setSelect] = useState<string>(""); // state que contém a opção de skill selecionada pelo usuário
+
+    function verificarCampoUpload( event: any ) {
+        setFoto(event.target.files[0])
+    }
+
+    function CadastrarUsuario(event: any) {
+        event.preventDefault();
+
+        const formData = new FormData()
+
+        formData.append("nome", nome)
+        formData.append("email", email)
+        formData.append("password", senha)
+        formData.append("user_img", foto)
+        formData.append("cep", cep)
+        formData.append("logradouro", logradouro)
+        formData.append("numero", numero)
+        formData.append("bairro", bairro)
+        formData.append("cidade", cidade)
+        formData.append("uf", uf)
+
+        formData.append("hardSkills", JSON.stringify(skillsSelecionadas)) 
+        
+        api.post("users", formData).then( (response) => {
+            console.log(response)
+            alert("Voce conseguiu!? =o")
+            // Navegacao para login
+        }).catch( (error) => {
+            console.log(error)
+        })
+
+       
+
+    }
 
     //Funçao para colocar mascara no input de CEP
     function mascaraCep(event: any) {
@@ -72,12 +121,13 @@ function CadastroUsuario() {
                 <div className="cad_conteudo">
                     <h1>Cadastro</h1>
                     <hr />
-                    <form className="cad_formulario" method="POST">
+                    <form onSubmit={ CadastrarUsuario } className="cad_formulario" method="POST">
                         <div className="cad_box_input">
                             <label htmlFor="nome">Nome Completo:</label>
                             <input
                                 type="text"
                                 id="nome"
+                                onChange={ (event) => { setNome(event.target.value) } }
                                 placeholder="Digite aqui seu nome:"
                                 required
                             />
@@ -87,6 +137,7 @@ function CadastroUsuario() {
                             <input
                                 type="email"
                                 id="email"
+                                onChange={ (event) => { setEmail(event.target.value) } }
                                 placeholder="Digite aqui seu e-mail:"
                                 required
                             />
@@ -96,6 +147,7 @@ function CadastroUsuario() {
                             <input
                                 type="password"
                                 id="senha"
+                                onChange={ (event) => { setSenha(event.target.value) } }
                                 placeholder="Digite aqui sua senha:"
                                 required
                             />
@@ -106,6 +158,7 @@ function CadastroUsuario() {
                             <input
                                 type="file"
                                 id="foto"
+                                onChange={verificarCampoUpload}
                                 required
                             />
                         </div>
@@ -118,6 +171,7 @@ function CadastroUsuario() {
                             <input
                                 type="text"
                                 id="cep"
+                                onChange={ (event) => { setCep(event.target.value) } }
                                 maxLength={9}
                                 onKeyUp={mascaraCep}
                                 placeholder="Digite aqui seu Cep:"
@@ -130,6 +184,7 @@ function CadastroUsuario() {
                             <input
                                 type="text"
                                 id="logradouro"
+                                onChange={ (event) => { setLogradouro(event.target.value) } }
                                 placeholder="Digite aqui seu Logradouro:"
                                 required
                             />
@@ -141,6 +196,7 @@ function CadastroUsuario() {
                                 <input
                                     type="text"
                                     id="numero"
+                                    onChange={ (event) => { setNumero(event.target.value) } }
                                     placeholder="Digite o Nº:"
                                     required
                                 />
@@ -151,6 +207,7 @@ function CadastroUsuario() {
                                 <input
                                     type="text"
                                     id="bairro"
+                                    onChange={ (event) => { setBairro(event.target.value) } }
                                     placeholder="Digite aqui seu Bairro:"
                                     required
                                 />
@@ -163,6 +220,7 @@ function CadastroUsuario() {
                                 <input
                                     type="text"
                                     id="cidade"
+                                    onChange={ (event) => { setCidade(event.target.value) } }
                                     placeholder="Digite aqui sua Cidade:"
                                     required
                                 />
@@ -173,6 +231,7 @@ function CadastroUsuario() {
                                 <input
                                     type="text"
                                     id="uf"
+                                    onChange={ (event) => { setUf(event.target.value) } }
                                     maxLength={2}
                                     placeholder="Digite a UF:"
                                     required

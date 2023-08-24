@@ -3,6 +3,15 @@ import { Link } from "react-router-dom"
 import "./style.css"
 
 export default function CardServ(props: any) {
+
+    function parseListaServicos() {
+        if(typeof props.techs === "string") {
+            return JSON.parse(props.techs)
+        } else {
+            return props.techs
+        }
+    }
+
     return (
         <div className="servico">
             <div className="topo_servico">
@@ -13,7 +22,7 @@ export default function CardServ(props: any) {
             <p>{props.descricao}</p>
             <div className="techs">
                 {
-                    props.techs.map((tech: string, index: number) => {
+                    parseListaServicos().map((tech: string, index: number) => {
                         return <span key={index}>{tech}</span>
                     })
                 }
