@@ -13,6 +13,7 @@ import PerfilUsuario from './pages/PerfilUsuario'
 import VisualizarServico from './pages/VizualizarServico'
 import CadastroUsuario from './pages/CadastroUsuario'
 import CadastroServico from './pages/CadastroServico'
+import Login from './pages/Login'
 
 
 
@@ -31,6 +32,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path='visualizarservico/:idServico' element={<VisualizarServico/>} />\
         <Route path='cadastrousuario' element={<CadastroUsuario/>}/>
         <Route path='cadastroservico' element={<CadastroServico/>} />
+        <Route path='login' element={<Login/>}/>
         </Routes>
         <Footer1 />
       </BrowserRouter>
